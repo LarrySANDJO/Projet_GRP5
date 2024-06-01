@@ -1,0 +1,1028 @@
+---
+output:
+  pdf_document:
+    keep_tex: true
+    fig_crop: false
+  html_document:
+    df_print: paged
+fontsize: 12pt
+numbersections: true
+always_allow_html: true
+documentclass: article
+header-includes: "\\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\\usepackage{pdfpages}
+\\usepackage{framed}
+\\usepackage{mathptmx}
+\\usepackage[french,]{babel}
+\\usepackage[utf8]{inputenc}
+\\usepackage[T1]{fontenc}
+\\usepackage[table, xcdraw, dvipsnames]{xcolor}
+\\usepackage{graphicx}
+\\usepackage{hyperref}
+\\usepackage{tikz}
+\\usepackage{fancyhdr}
+% For heading and footers, les entêtes et les pieds de pages 
+
+%\\frenchbsetup{StandardLists=true}
+% à inclure si on utilise 
+
+%\\usepackage[french]{babel}
+\\usepackage{enumitem}
+% pour les items numérotés
+
+%\\usepackage[Lenny]{fncychap} 
+\\usepackage{multicol}
+% Pour diviser la page, la moitié
+
+%\\usepackage{pdfpages}
+% Pour importer des pdf
+
+%\\usepackage{multirow}
+
+%\\usepackage{array}
+% environnement nécessaire pour les maths
+
+\\usepackage{amsmath,amssymb}
+% environnement nécessaire pour les maths
+
+\\usepackage{iftex} 
+\\usepackage{textcomp} 
+\\usepackage[]{microtype}
+\\usepackage{longtable,booktabs,array}
+% necessaire pour les longs tableaux 
+
+\\usepackage{calc}
+\\usepackage[Conny]{fncychap}
+\\usepackage{setspace}
+% pour l'espacement, l'interligne
+
+\\usepackage{MnSymbol}
+\\definecolor{gre}{RGB}{101, 191, 127}
+\\definecolor{gree}{RGB}{7, 135, 44}
+\\usepackage[most, many]{tcolorbox}
+\\geometry{hmargin  = 2.5cm, vmargin = 1.5cm}
+% pour régler les marges
+
+\\renewcommand\\thesection{\\Roman{section}}"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+\includepdf{Page de garde 3.pdf}
+
+\includepdf{Photo2.pdf}
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/R.png")
+```
+
+\newpage
+
+\textcolor{blue}{\tableofcontents} 
+
+\newpage
+
+```{=tex}
+\listoftables
+\listoffigures
+\newpage
+```
+```{=tex}
+\renewcommand{\headrulewidth}{1.5pt}
+\let\oldheadrule\headrule                            
+\renewcommand{\headrule}{\color{blue}\oldheadrule}% Add colour to \headrule
+\renewcommand{\footrulewidth}{1.5pt} 
+\let\oldfootrule\footrule%
+\renewcommand{\footrule}{\color{blue}\oldfootrule}% Add colour to \headrule
+\pagestyle{fancy}        %Default page style 
+\lhead{\scriptsize{R-Markdown}} % left head entête gauche
+\chead{} % entête Au centre
+\rhead{\textcolor{black}{2024}} % right head entête à droite
+\lfoot{\textcolor{black}{ENSAE}} % pieds de page gauche 
+\rfoot{Groupe 5} % Au centre du pied de page 
+%
+%\section*{{Introduction}\addcontentsline{toc}{section}{Introduction}} 
+% l'etoile '*' permet de ne pas compter une section comme un titre
+```
+
+# Introduction
+
+La création d'un rapport, d'un mémoire ou même d'une thèse à caractère scientifique nécessite très souvent d'y faire apparaître des tableaux, des graphiques voire même des lignes de codes explicites. Les logiciels classiques tels que Ms Word et LateX requièrent des procédés ambiguës pour insérer de tels éléments. R Markdown est un outil qui réponds à de telles préoccupations.
+
+## C'est quoi au fait R Markdown ?
+
+Avant de definir R markdown, nous allons au préalable definir le langage Markdown. Le langage Markdown est un langage de balisage léger qui permet de formater du texte de manière simple et lisible, en utilisant des caractères typographiques courants. R Markdown est une variante de markdown qui est spécifique à R. Il permet d’écrire un document en utilisant markdown pour produire du texte et pour incorporer du code R, Python, SQL et bien d'autres et afficher leurs sorties. Les fichiers R Markdown ont une extension `.Rmd`.
+
+## Pourquoi R Markdown est-il aussi important ?
+
+R Markdown est un outil très important. En effet, R Markdown offre une grande flexibilité et diversité en termes de formats de sortie pour les documents. Il permet les formats de sortie suivant :
+
+-   **HTML** : Les documents HTML peuvent être interactifs et inclure des éléments comme des graphiques interactifs (avec des bibliothèques comme Plotly), des tableaux de données dynamiques (avec DataTables), etc.
+
+-   **PDF**
+
+-   **Word**
+
+-   **Présentations** : R Markdown prend en charge la création de présentations au format HTML ou PDF.
+
+-   **Dashboards interactifs** : Avec des packages comme flexdashboard ou shiny, on peut créer des tableaux de bord interactifs à partir de R Markdown. Ces tableaux de bord peuvent inclure des graphiques interactifs, des widgets de contrôle, etc.
+
+-   **Livres électroniques (e-books)** : On peut générer des livres électroniques au format EPUB ou Kindle à partir de R Markdown. Cela peut être utile si vous écrivez un livre ou un document plus long et que vous souhaitez le distribuer sous forme de livre électronique.
+
+-   **Beamer (pour les présentations LaTeX)**
+
+D'autre part, R Markdown est un outil puissant qui permet de combiner du code R, des résultats de code, et du texte formaté dans un document unique. Voici quelques-unes de ses principales fonctionnalités :
+
+-   **Intégration de code** : Vous pouvez intégrer du code R directement dans votre document Markdown en utilisant des blocs de code délimités par trois backticks (\`\`\`). Ce code peut être exécuté lors de la génération du document, et les résultats peuvent être affichés directement dans le document.
+
+-   **Rendu dynamique** : R Markdown permet de générer une grande variété de formats de sortie, y compris HTML, PDF, Word, présentations (via HTML ou PDF), et bien d'autres. Vous pouvez spécifier le format de sortie dans les métadonnées du document ou lors de la génération du document.
+
+-   **Mixage de formats de texte** : Vous pouvez utiliser du texte formaté en Markdown pour structurer votre document (titres, listes, etc.), ainsi que du texte en LaTeX pour des formattages plus avancés (équations mathématiques, références bibliographiques, etc.).
+
+-   **Incorporation de graphiques** : R Markdown permet de générer et d'inclure des graphiques générés par R (à l'aide de ggplot2, base R, etc.) directement dans le document final. Les graphiques sont automatiquement insérés à l'endroit où vous spécifiez le code pour les créer.
+
+-   **Support de nombreux langages de programmation** : Bien que son nom suggère une utilisation principale avec R, R Markdown prend en charge d'autres langages de programmation comme Python, Julia, et bien d'autres. Vous pouvez intégrer et exécuter du code dans ces langages dans le même document.
+
+-   **Personnalisation avancée** : Vous pouvez personnaliser de nombreux aspects de votre document final, y compris le style, les polices, les marges, etc., en utilisant des options spécifiques au format de sortie ou en passant par des fichiers de configuration.
+
+-   **Facilité d'utilisation** : R Markdown est conçu pour être convivial, même pour les débutants. Sa syntaxe est relativement simple et intuitive, ce qui en fait un choix populaire pour la génération de rapports, de documents de recherche, de présentations, etc.
+
+Tout autre détail sur le langage R Markdown peut être obtenu à partir du lien suivant: [http://rmarkdown.rstudio.com](http://rmarkdown.rstudio.com).
+
+\newpage
+
+# Utilisation de R markdown
+
+## Installation du package de R markdown
+
+Pour installer le package R Markdown, on peut utiliser directement la fonction `install.packages()`: `install.packages("rmarkdown")`
+
+Pour charger le package R Markdown, on utilise la fonction `library()` : `library(rmarkdown)`
+
+On peut aussi aller dans la fenêtre de presentation et puis cliquer sur `packages` ensuite install et enfin selectionner l’installation à partir du CRAN, entrer le nom du package Rmarkdown et cliquer sur `Installer`.
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Installation_package_Rmd.jpg")
+```
+
+***NB :*** Toujours prendre la peine de cocher sur `install dependencies`.
+
+## Présentation de l'environnement R Markdown
+
+Dans cette partie, nous allons vous présenter les bases de R markdown.
+
+### Structure d'un document R Markdown
+
+Lorsque votre logiciel RStudio est ouvert, pour ouvrir un fichier R markdown, vous pouvez cliquer sur `new file` et ensuite choisir le fichier `R markdown`.
+
+Comme cela est illustré sur la photo ci-dessous:
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="40%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Creation_fichier_Rmd.jpg")
+```
+
+La fenêtre ci-dessous s'ouvre alors sur laquelle vous pouvez spécifier le titre de votre document, le nom de l'auteur, la date et le format de sortie ( HTML, pdf ou Word) :
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/New_RMD.jpg")
+```
+
+Par défaut, la page qui s'affiche est la suivante:
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Page_defaut.jpg")
+```
+
+Vous pouvez déjà y voir le titre `# R markdown` et apercevoir quelques chunks (pas d'inquiétude on verra ce que c'est dans la suite).
+
+### En-tête YAML
+
+L’en-tête d’un document R Markdown (parfois appelé YAML header) est délimité par deux lignes de pointillés et contient les métadonnées du document (titre, auteurs, options générales de mise en page…). Il contient au minimum le titre du document et le format de sortie. Il peut être enrichi d’autres champs pour modifier certaines métadonnées (par exemple la date) ou le style du document compilé. Voici un exemple d’en-tête :
+
+```{r echo=FALSE, fig.align='center', out.width= "50%", out.height="50%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Entete.png")
+```
+
+De nombreux champs supplémentaires peuvent être ajoutés. Par exemple, les références bibliograhiques sont listées dans un fichier séparé et c’est R Markdown lui-même qui se charge de la mettre en forme et de la lier à des références dans le texte.
+
+### Table des matières
+
+Pour inclure une table des matières dans un document R Markdown généré avec RStudio, vous pouvez utiliser l’option `toc` dans les métadonnées YAML. Voici comment vous pouvez le faire L’option `toc: true` dans le bloc YAML indique à R Markdown de générer une table des matières ou passer menu `Edit` ensuite `Output Options` et activer la partie `table of contents`.
+
+```{r echo=FALSE, fig.align='center', out.width= "50%", out.height="50%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/toc.png")
+```
+
+Les titres de section sont précédés par un numéro `#`, ce qui indique à Markdown qu’il s’agit d’un titre de section. Markdown convertira automatiquement ces titres en liens de la table des matières. Chaque titre de section est également associé à un identifiant unique (par exemple, `#` première-section). Ces identifiants sont utilisés dans les liens de la table des matières pour pointer vers chaque section. Pour facilite la tache RStudio propose néanmoins une petite interface graphique permettant de changer ces options plus facilement. Pour cela, cliquez sur l’icône en forme d’engrenage à droite du bouton `Knit` et choisissez `Output Options`.
+
+```{r echo=FALSE, fig.align='center', out.width= "50%", out.height="50%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Output_option.png")
+```
+
+### Les styles et thèmes
+
+Il est possible avec Rmarkdown d’importer un document word et import les styles qui y sont et appliquer a notre document de sortir. Pour le faire, il faut faire appel à l’option des métadonnées `reference_docx`. Cet option prend comme valeur le chemin de notre fichier en question. Voici un exemple:
+
+```{r echo=FALSE, fig.align='center', out.width= "50%", out.height="50%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Style.png")
+```
+
+### L'option params
+
+L’option `params` dans l’en-tête d’un chunk R Markdown est utilisée pour spécifier des paramètres externes que vous souhaitez passer au chunk lors de son exécution. Ces paramètres peuvent être définis à l’extérieur du document R Markdown et injectés dans le document au moment de son exécution. Pour illustrer son importance nous pouvons utiliser l’exemple d’une base contemant des informations des individus. Ces individus sont dans divers secteurs activités tel que le commerce, l’agriculture, l’elevage, l’artisanat, etc. Nous pouvons utiliser l’option parms au niveau de l’en-tete pour générer un rapport pour chaque secteur d’activités. Il n’y pas de limite concernant le nombre de paramètres à insérer.
+
+```{r echo=FALSE, fig.align='center', out.width= "50%", out.height="50%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Params.png")
+```
+
+**Application**
+
+* **Préambule :**
+
+Comme application, nous avons écrit un code R markdown qui fait l'équivalent du publipostage sous Word.
+
+À partir de l'echantillon ci-dessous :
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Echantillon_publipostage.png")
+```
+
+Nous voulons remplacer automatiquement **Étudiant**, **Diplôme**, **Date de Graduation** et **Université** par leurs valeurs correspondantes.
+
+* **Processus et codes :**
+
+À la base, nous avons un document nommé **`templedi`** comme échantillon.
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/templedi.png")
+```
+
+Dans ce document R Markdown, nous avons les paramètres `student_name`,`degree`,`graduation_date` et `university` qui sont insérés dans l'option **`param`**. Ce sont eux qui à chaque fois qu'ils sont modifiés dans l'entête YAML permettent de changer automatiquement le document.
+
+Pour créer des documents automatiquement, nous avons écrit un script R qui permet de générer automatiquement les documents à l'aide de la commande `rmarkdown::render()`; le script en question est le suivant :
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/essai.png")
+```
+
+Comme vous le constatez la variable **`student`** contient les informations à entrer dans la partie de l'options `param`. La boucle `for` juste en bas permet de compiler chaque document pour les différentes informations. 
+
+* **Sorties :**
+
+Après execution du script, on a les différentes sorties suivantes :
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Sortie_param1.png")
+```
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Sortie_param2.png")
+```
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Sortie_param3.png")
+```
+
+On constate alors que les différentes informations apparaissent chacunes sur son document spécifique.
+
+**NB :** Rassurez-vous que votre script R et votre document R markdown utilisé comme template soient dans le **même dossier**.
+
+### Chunks de code
+
+En plus du texte libre au format Markdown, un document R Markdown contient, comme son nom l’indique, du code R. Celui-ci est inclus dans des blocs (chunks) délimités par la syntaxe suivante :
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Chunk.png")
+```
+
+Comme cette suite de caractères n’est pas très simple à saisir, vous pouvez utiliser le menu `Insert` de RStudio et choisir le type de chunks que vous voulez
+
+```{r echo=FALSE, fig.align='center', out.width= "30%", out.height="30%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Type_chunk.png")
+```
+
+Ou utiliser le raccourci clavier **`Ctrl+Alt+i`**. Quand votre curseur se trouve dans un bloc, vous pouvez saisir le code R que vous souhaitez, l’exécuter, utiliser l’autocomplétion, exactement comme si vous vous trouviez dans un script R. Vous pouvez également exécuter l’ensemble du code contenu dans un bloc à l’aide du raccourci clavier `Ctrl+Maj+Entrée`. Le corps d’un document R Markdown comprend deux types de blocs, qu’on peut alterner librement, les chunks ont deux carcateristiques importants à savoir: Ces chunks peuvent être nommés (il est même recommandé de le faire) ; Des options peuvent être spécifiées. Ces options (détaillées plus bas) permettent par exemple de ne pas faire figurer l’output du code dans le document final ou inversement de ne montrer que l’output du code et non le code l’ayant généré.
+
+Quelques options des chunks Les options de chunk peuvent être personnalisées avec les options `knitr`, des arguments définis dans les {} de l’en-tête d’un chunk. Ci-dessus, nous utilisons cinq arguments les plus utilisés :
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Options_chunk.png")
+```
+
+Consultez le Guide de référence de R Markdown pour une liste complète des options de chunk knitr. Il est possible aussi de définir des options globales qui s’appliquent à chaque chunk de votre fichier, appelez knitr::opts_chunks et dans un chunk de code. Knitr traitera chaque option que vous transmettez à `knitr::opts_chunkset` comme un défaut global pouvant être écrasé dans les en-têtes de chunk individuels.
+
+\newpage
+
+# Personnalisation d'un document R markdown
+
+## Les notes de bas de page
+
+Markdown nous permet d’éditer des notes de bas de page. Il suffit ajoutez tout simplement dans votre texte un numéro d’annotation, et reprenez ce numéro en bas de votre page dans une note de bas de page. Markdown créera alors automatiquement une ligne. L'insertion de notes de bas de page numérotées s'effectue à l'aide de crochets `([])` contenant un accent circonflèxe et une référence qui peut être soit un nombre, soit un texte (mais sans espace ou autre caractère blanc).
+
+**Application**
+
+Le numéro de la note de bas de page est un lien qui renvoie vers la note[^1]. Une flèche de retour est proposée pour ramener au texte lorsque le document créé est un document html[^2].
+
+[^1]: *L'interet de la note de bas de page*
+
+[^2]: *Si le document est html*
+
+## Ajout de bibliographie
+
+Pour insérer une bibliographie dans un document R Markdown, on peut utiliser des fichiers de style CSL (Citation Style Language) et des logiciels comme Zotero ou Mendeley pour gérer vos références bibliographiques. Voici une méthode générale pour le faire :
+
+Utilisez un logiciel de gestion de références bibliographiques tel que Zotero, Mendeley ou EndNote pour collecter et organiser vos références. Assurez-vous d'exporter votre bibliographie dans un format compatible CSL, tel que BibTeX (.bib) ou CSL JSON (.json).
+
+Téléchargez un fichier de style CSL correspondant à vos besoins. CSL est un langage de style de citation qui contrôle le format de citation et de bibliographie dans les documents. Vous pouvez trouver des styles CSL sur le site officiel de CSL <https://citationstyles.org/>.
+
+Configurer votre document R Markdown : Dans votre document R Markdown, vous pouvez spécifier le style de citation et la bibliographie à utiliser dans le YAML en-tête. Assurez-vous que le chemin vers votre fichier de bibliographie (biblio.bib) et votre fichier de style CSL (style.csl).
+
+Configurer votre document R Markdown : Dans votre document R Markdown, vous pouvez spécifier le style de citation et la bibliographie à utiliser dans le YAML en-tête. Assurez-vous que le chemin vers votre fichier de bibliographie (biblio.bib) et votre fichier de style CSL (style.csl).
+
+## Insertion de tableau
+
+Pour insérer des tableaux basiques dans un document RMarkdown, on peut utiliser la syntaxe Markdown pour créer des tableaux simples.
+
+La syntaxe Markdown permet de créer un tableau en utilisant des barres verticales `|` pour séparer les colonnes et des tirets - pour séparer les lignes.
+
+Pour personnaliser votre tableau en ajoutant des éléments Markdown supplémentaires, utilisez deux points : dans les barres verticales pour aligner le texte dans les colonnes. Par exemple :---: pour centrer, :--- pour aligner à gauche, ---: pour aligner à droite.
+
+Après avoir tricoté le document RMarkdown, le tableau sera formaté correctement dans la sortie finale, que ce soit dans un fichier PDF, HTML ou autre, en fonction du format que vous avez choisi pour votre document.
+Pour des fonctionnalités plus avancées ou de tableaux plus complexes, on pourra également utiliser des packages R spécifiques, comme kable() de knitr, pour créer et personnaliser des tableaux à partir de données R.
+
+**Application**
+
+Par exemple, lorsqu'on entre le code ci-dessous,
+
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/code_tableau.png")
+```
+
+On obtient la sortie suivante.
+
+| Nom    | Prenom           | Classe   |
+|--------|------------------|----------|
+| BAMOGO | Rasmane          | ISE-MATH |
+| SANDJO | Larry            | ISE-MATH |
+| DIOP   | Cherif Ousseynou | ISEP     |
+| ZINABA | Albert           | ISE-ECO  |
+
+Il est aussi possible de faire des tableaux à l'aide des codes R à partir des chunks. Les fonctions telles que `kable()` de la librarie `knitr` et `tbl_summary()` de `gtsummary` sont vivement conseillées.
+
+## Insertion de lien
+
+R markdown permet de créer des liens qui facilite la navigation vers le web ,local ou même dans notre document.
+ 
+* **Insersion du lien web :**
+ 
+La syntaxes est la suivante entre crochet le titre du lien suivis d'une parenthèse contenant le lien web.
+
+**Exemple :**
+
+Le code suivant :
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Lien_Zotero.png")
+```
+
+Permet d'avoir le lien suivant : [Lien vers zoreto](https://www.zotero.org/)
+
+* **Lien vers un fichier local :**
+  
+La syntaxe est la suivante; entre crochet le titre du lien suivis d'une parenthèse contenant le chemin d'accès au document
+ 
+**Exemple :**
+
+Voici une photo du code :
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Lien_Local.png")
+```
+  
+ [lien vers le TP](C:/Users/Larry/Desktop/ISE 1/S2/Projet Statistique avec R/Projet R Markdown/Plan_de_travail_R_Markdown[1].docx)
+  
+* **Lien vers un titre du document :**
+
+La syntaxe est la suivantel; entre crochet contenant le titre du document suivi d'une parenthèse contenant le titre mais le titre doit être début par un `#`:
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Lien_vers_titre.png")
+```
+
+[Retour vers l'insertion](# Insertion d'un lien dans le document rmarkdown)
+
+Dans tous les cas le titre n'est pas obligatoire mais au cas où il n'y a pas de titre les crochets doivent être mis et laissier vide
+
+## Insertion d'images
+
+Pour insérer des images dans un document RMarkdown, la syntaxe suivante : 
+
+`![](%22chemin//vers%20//votre//image.jpg)`.
+
+Pour ce faire il faut s’assurer que le nom de l’image que vous avez mis est le bon, par exemple ici "imge.jpg " dans l'exemple précedent.
+
+Lorsque vous rendrez votre document RMarkdown, l'image sera incorporée dans le document rendu. Assurez-vous également que vous avez les packages nécessaires pour le rendu de votre document RMarkdown avec des images, comme knitr et rmarkdown, installés et chargés dans votre environnement R.\
+Pour ajouter une description de l’image, pour pouvez insérer la description dans les crochets. Par exemple ["description"].
+
+**Application**
+
+Le code R markdown suivant permet d'obtenir la sortie ci-dessous :
+
+```{r echo=FALSE, fig.align='center', out.width= "80%", out.height="80%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/code_image.png")
+```
+
+![Une sortie de promotion à l'ENSAE](ENSAE_Image.JPG)
+
+Il est aussi possible d'insérer des images à partir des chunks à l'aide de la fonction `include_graphics()` de la librarie `knitr`. En procédant ainsi, il est alors possible de contrôler la largeur de l'image à l'aide de l'option de chunk `out.width` et la longueur de par l'option `out.height`.
+
+\newpage
+
+## Equations mathématiques
+
+Pour insérer des équations mathématiques dans un document RMarkdown, on peut utiliser la syntaxe LaTeX, qui est largement utilisée pour la mise en forme mathématique. Quelques façons d’insérer des équations mathématiques :
+
+### Equations en ligne
+
+Pour inclure des équations mathématiques directement dans le texte, on peut les entourer de symboles \$.
+
+**Exemple :** 
+
+Lorsque l'on insère le code lateX suivant `$f(x) = x+y$` on obtient la sortie suivante : $f(x) = x+y$
+
+### Équations centrées
+
+Pour afficher des équations mathématiques sur leur propre ligne, vous pouvez les entourer de symboles `$$`.
+
+**Exemple :**
+
+Le code suivant permet d'obtenir la sortie plus bas il utilise la balise LateX `\begin{aligned}...\end{aligned}`:
+
+```
+$$\begin{aligned}
+        \sum_{i=1}^{n}x_{i}&=-\dfrac{a_{n-1}}{a_{n}}\\
+        \sum_{1\leq i<j\leq n}x_{i}x_{j}&=+\dfrac{a_{n-2}}{a_{n}}\\
+        \sum_{1\leq i<j<k\leq n}&=-\dfrac{a_{n-3}}{a_{n}}\\
+        \vdots &\\
+        \sum_{1\leq i_{1}<i_{2}<\cdots <i_{P}\leq n}x_{i_{1}}x_{i_{2}}\cdots x_{i_{P}}&=(-1)^{p}\dfrac{a_{n-p}}{a_{n}}\\
+        \vdots&\\
+        \prod_{i=1}^{n}x_{i}&=(-1)^{n}\dfrac{a_{0}}{a_{n}}
+    \end{aligned}$$
+```
+
+**Sortie :**
+
+$$\begin{aligned}
+        \sum_{i=1}^{n}x_{i}&=-\dfrac{a_{n-1}}{a_{n}}\\
+        \sum_{1\leq i<j\leq n}x_{i}x_{j}&=+\dfrac{a_{n-2}}{a_{n}}\\
+        \sum_{1\leq i<j<k\leq n}&=-\dfrac{a_{n-3}}{a_{n}}\\
+        \vdots &\\
+        \sum_{1\leq i_{1}<i_{2}<\cdots <i_{P}\leq n}x_{i_{1}}x_{i_{2}}\cdots x_{i_{P}}&=(-1)^{p}\dfrac{a_{n-p}}{a_{n}}\\
+        \vdots&\\
+        \prod_{i=1}^{n}x_{i}&=(-1)^{n}\dfrac{a_{0}}{a_{n}}
+    \end{aligned}$$
+
+Il est aussi possible d'utiliser les codes LateX `\begin{equation}...\end{equation}`
+
+**Exemple :**
+
+\begin{equation}
+E = mc^2
+\end{equation}
+
+
+### Notation LaTeX
+
+On peut egalement utiliser la notation LaTeX pour écrire des expressions mathématiques plus complexes, telles que les fractions, les indices, les exposants, les racines carrées, etc.
+
+**Exemple : Une division euclidienne**
+
+Avec le code lateX suivant on obtient une la division euclidienne plus bas.
+
+```{r echo=FALSE, fig.align='center', out.width= "80%", out.height="80%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/division_euclidienne.png")
+```
+
+
+```{=tex}
+      $\renewcommand{\arraystretch}{1.2} \renewcommand{\arraycolsep}{2pt} \begin{array}{rrrrrr|rrrrr} A=&4x^{4}&-4x^{3}&+5x^{2}&-4x&+1 & 2x^{3}&-3x^{2}&-x&+1&=B \\  
+            \cline{7-10} & -4x^{4}& +6x^{3} &+2x^{2} & -2x & & 2x&+1&=Q_{1}& & \\ 
+            \cline{2-5} & & 2x^{3}& +7x^{2} & -6x& +1 &  & & & &\\
+            & & -2x^{3}& +3x^{2} & +x& -1 &  & & & &\\
+            \cline{3-6}& & & 10x^{2} & -5x& =R_{1} &  & & & &\\
+            \end{array}
+            $ 
+```
+
+## Packages et extensions
+
+La création d'un modèle (ou Template) dans RMarkdown vous permet de définir une structure de document prédéfinie avec des paramètres par défaut, des styles personnalisés, des en-têtes, des pieds de page, etc. Voici comment créer un modèle RMarkdown :
+
+### Création du modèle
+
+1.  Commencez par créer un nouveau document RMarkdown dans RStudio.
+
+2.  Personnalisez ce document selon vos besoins : définissez les en-têtes, les pieds de page, les styles CSS, les balises LaTeX personnalisées, etc.
+
+3.  Enregistrez ce document dans un répertoire spécifique que vous pouvez facilement retrouver.
+
+**Exemple d'une sortie d'un modèle :**
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Template_github.png")
+```
+
+Ce type de modèle peut être facilement optenu sur le site :  <https://github.com/yixuan/prettydoc/?tab=readme-ov-file>
+
+### Utilisation du modèle
+
+Pour utiliser ce modèle lors de la création d'un nouveau document RMarkdown :
+
+1.  Ouvrez RStudio.
+
+2.  Sélectionnez "File" \> "New File" \> "R Markdown...".
+
+3.  Choisissez "From Template" et sélectionnez le modèle que vous avez créé.
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/From_template.png")
+```
+
+### Personnalisation supplémentaire
+
+Nous pouvons également personnaliser davantage notre modèle en y ajoutant des paramètres YAML spécifiques, tels que des options pour les citations bibliographiques, le format de sortie, etc.
+
+**Exemple de modèle YAML :**
+
+Voici un exemple de YAML pour un modèle RMarkdown :
+
+--- title: "Mon Modèle RMarkdown"
+
+output: pdf_document:
+
+toc: true
+
+number_sections: true
+
+fig_caption: true
+
+html_document:
+
+toc: true
+
+toc_float: collapsed: false
+
+code_folding: hide ---
+
+**Utilisation de données dynamiques :**
+
+Vous pouvez également créer des modèles qui intègrent des données dynamiques. Par exemple, vous pouvez utiliser des paramètres YAML pour spécifier des titres ou des noms d'auteurs qui seront remplis à la création du document.
+
+En résumé, la création d'un modèle RMarkdown implique la personnalisation d'un document RMarkdown selon vos besoins, puis la sauvegarde de ce document dans un répertoire spécifique. Vous pouvez ensuite utiliser ce modèle comme base pour créer de nouveaux documents RMarkdown en sélectionnant "From Template" lors de la création d'un nouveau document dans RStudio.
+
+## Compléments
+
+
+### R markdown Cheat Sheet
+
+Vous pouvez avoir la liste quasi complète des balises R Markdown en allant sur le site 
+
+[https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+Il est aussi possible d'accéder aux références rapides de R markdown proposé par la page d'aide de R. Pour cela, il suffit d'aller sur `Help`, ensuite de cliquer sur `Markdown Quick Reference`. La page d'aide de R s'ouvre alors avec l'ensemble des références pour R markdown.
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/References_markdown.png")
+```
+
+### Le visual de R Markdown.
+
+Dans R Markdown, vous pouvez utiliser le `visual` pour effectuer de nombreuses tâches sans avoir à retenir toutes ces balises R markdown. Cet espace , qui ressemble beaucoup à celui de word, vous offre un ensemble de fonctionnalités qui écrit des balises R Markdown à votre place.
+
+Pour Y accéder, il sufft de cliquer sur `Visual` à côté de `source`.
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Visual.png")
+```
+
+Vous pouvez ensuite utiliser l'ensemble des fonctionnalités telles que mettre en gras, mettre en italique, insérer des images, des tableaux, etc.
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Le_Visual.png")
+```
+
+### Rapport rapide à partir d’un script R
+
+Si vos analyses sont présentes dans un script R et que ce script contient tout le nécessaire pour la réalisation de votre analyse (i.e. chargement des données et des packages requis), vous pouvez très facilement réaliser un rapport rapide au format HTML, Word ou PDF, contenant à la fois votre code et les sorties associées.
+
+Il suffit de cliquer sur l’icône compile report dans le quadrant supérieur gauche.
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Compile_report.png")
+```
+
+Une autre façon de faire cela est d'utiliser la commande `rmarkdown::render("nom_script.R")`
+
+\newpage
+
+# Formats de sortie avec R Markdown
+
+## Creation beamer 
+
+Une fois que le logiciel ouvert, vous pouvez suivre les étapes suivantes pour créer le beamer :
+
+
+```{r etape}
+past <- here::here()
+image_1 <- paste0(past,"/image_1.png")
+image_2 <- paste0(past,"/image_2.png")
+image_3 <- paste0(past,"/image_3.png")
+```
+### Etapes 1 : 
+
+ ![première étape création beamer](image_1){width="350px"}
+
+### Etapes 2 : 
+
+ ![deuxieme étape création beamer](image_2){width="400px"}
+ 
+\newpage
+### Etapes 3 : 
+
+ ![troisième étape création beamer](image_3){width="400px"}
+ 
+## Personnaliser le beamer
+
+Aprés la création du beamer, le fichier a un format simple. Il est possible de personnaliser la sortie.
+
+### Thèmes : 
+
+Le Beamer offre une gamme de thèmes préconfigurés pour personnaliser la présentation, parmi lesquels on retrouve : AnnArbor, Antibes, Bergen, Berkeley, Berlin, CambridgeUS, Frankfurt, etc.
+
+De plus, il propose également une palette de couleurs prédéfinies telles que : bleu, vert, cyan, magenta, jaune, noir, blanc, etc.
+
+La matrice des thèmes et des couleurs est définie sur le site : [*Thèmes & couleurs beamer*](https://bookdown.org/yihui/rmarkdown/beamer-presentation.html).
+
+---
+
+### Thème et couleur:
+
+
+Pour ajouter un thème et une couleur, il suffit d'ajouter le syntaxe au niveau de l'output (YAML) :
+
+- theme : "*nom_theme*"
+
+
+- colortheme : "*nom_couleur*"
+
+### Exemple : 
+
+title: "Application Beamer" 
+
+
+author: "DIOP Ousseynou"
+
+
+date: "`r Sys.Date()`"
+
+
+output: "
+
+
+  beamer_presentation:" 
+  
+    theme: "Madrid"" 
+    
+    colortheme: "dolphin"
+
+## Niveau coulissant : 
+
+Le niveau de coulissant correspond à la hiérarchie des titres dans une présentation Beamer. Dans RMarkdown, le paramètre *slide_level* contrôle cette structuration en spécifiant le niveau de titre qui doit générer une nouvelle diapositive dans la sortie Beamer.
+
+### Remarque  
+Par défaut, *slide_level* est fixé à 2, ce qui signifie que les titres de niveau 1 (#) et de niveau 2 (##) créeront une nouvelle diapositive, tandis que les sous-titres de niveau 3 et supérieur seront inclus dans la même diapositive que leur titre parent.
+
+### Exemple : 
+
+title: "Application Beamer" 
+
+
+author: "DIOP Ousseynou"
+
+
+date: "`r Sys.Date()`"
+
+
+output: "
+
+
+  beamer_presentation:" 
+  
+    theme: "Madrid"" 
+    
+    colortheme: "dolphin"
+  
+slide_level : 2
+
+## Quelques statistiques 
+
+La source de données utilisée provient de ACLED et concerne les incidents survenus dans les pays du G5 Sahel, entre autres.
+
+```{r statistics, echo=TRUE,message=FALSE}
+past <- here::here()
+past_data <- paste0(past,"/ACLED-Western_Africa (1).csv")
+data <- read.csv("../Document_Rmarkdown/ACLED-Western_Africa (1).csv")
+data_filter <- dplyr::filter(
+  data, 
+  (type == "Violence against civilians"| type=="Battles") & (pays=="Burkina Faso" | pays=="Mauritania" | pays=="Niger" | pays =="Mali" | pays=="Senegal"))
+tableau <- table(data_filter$pays, data_filter$type)
+```
+
+### Résultat
+```{r resultat,message=FALSE}
+print(tableau)
+```
+
+### Mise en forme  avec KableExtra
+
+```{r,echo=TRUE,message=FALSE}
+library(kableExtra)
+library(dplyr)
+
+#convertion du tableau en un objet kable
+tableau_kable <- as.data.frame.matrix(tableau) 
+table_form <- tableau_kable %>%
+  kbl(caption="Evenements G5 Sahel") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+```
+
+### Résultat 
+
+```{r}
+table_form
+```
+
+## Un peu de statistiques spatiales(1)
+
+```{r, echo=TRUE,message=FALSE}
+library(tidyverse)
+library(sf)
+library(tmap)
+library(variousdata)
+
+past <- here::here()
+bkf<- read_sf("../Document_Rmarkdown/BKF/gadm41_BFA_2.shp")
+tmap_mode("plot")
+bkf_1 <- tm_shape(bkf) + 
+    tm_polygons() + 
+   tm_text("NAME_2", size = 0.5, col = "black", alpha = 0.8)+
+  tm_layout("Burkina Faso", inner.margins=c(0,0,.1,0), title.size=.8)+
+  tm_compass(type = "arrow", position = c("left", "top")) 
+
+
+```
+
+### Résultat 
+
+```{r spatial}
+bkf_1
+```
+
+
+## Un peu de statistiques spatiales(2)
+
+```{r view, echo=TRUE, message=FALSE,warning=FALSE}
+
+library(openxlsx)
+
+way<- paste0(past,"/BKF//température.xlsx")
+temperature <- read.xlsx("../Document_Rmarkdown/BKF/température.xlsx")
+temperature <- data.frame(temperature)
+bkf_2<- merge(bkf, temperature, by = "NAME_2", all.x = TRUE)
+bkf_2_T <- tm_shape(bkf_2) + 
+  tm_polygons("Temperature", title = "Temperature") +
+  tm_borders("white", lwd = 0.5) +
+  tm_text("NAME_2", size = 0.5, col = "black", alpha = 0.8)+
+  tm_layout(title = "Température du Burkina Faso")+
+  tm_compass(type = "arrow", position = c("left", "top"))+
+   tm_scale_bar(position = c("center","bottom"))
+```
+
+### Résultat
+
+```{r plot, warning=FALSE}
+bkf_2_T
+```
+
+
+## Autres fonctionnalités 
+
+Il y a d'autres fonctionnalités de beamer comme : générer la table des matières, les numéros des sections, les options de sorties,ajouter une image, les listes etc. Ces fonctionnalités sont discutées plus en détail dans les présentations générales de Rmarkdown.
+
+\newpage
+
+# R Markdown et LateX
+
+Si vous souhaitez concevoir des documents pdf très attrayant, comme celui-ci d'ailleurs, il est conseillé d'associer vos balises R markdown aux balises LateX. Nous vous présentons ici quelques balises LateX simple qui peuvent faire la différence dans vos documents R markdown. Tous les packages LateX nécessaires doivent être inclus dans l'entête YAML à l'aide de `header-includes:` où vous devez lister ces packages. 
+
+**Les pages de garde :**
+
+Pour insérer une page de garde dans votre document Rmd, vous devez avoir une page de garde faite à partir de Ms word par exemple. Cette parge de garde doit être au **format pdf** et être **contenu dans le dossier où se trouve votre script R markdown**.
+
+Avant d'inclure la page de garde, vous devez vous assurer d'inclure le package LateX qui permet de le faire eu niveau de l'entête YAML. Il s'agit du package `\usepackage{pdfpages}`.
+
+La balise permettant d'inclure la page de garde est `\includepdf{nom_de_la_page_de_garde}`.
+
+**La table des matières :**
+
+Nous avons déjà vu comment insérer la table de matière avec R markdown, mais il est conseillé d'utiliser la balise LateX `\tableofcontents` qui permet de générer une table de matière plus attrayante et qui donne la possibilité de numéroter automatiquement les parties de notre document.
+
+**Liste des tableaux et liste des figures :**
+
+Il est aussi possible d'inclure une liste des tableaux et des figures avec des balises lateX `\listoftables` et `\listoffigures`.
+
+**Insérer une nouvelle page :**
+
+Vous l'aurez remarqué, l'insertion d'une nouvelle page dans R mardown se fait très souvent à l'aide de la balise lateX `\newpage`.
+
+**Mettre un texte en couleur :**
+
+Dans vos document R markdown vous pouvez mettre vos titres ou vos textes en couleur à l'aide de la syntaxe `\textcolor{nom_couleur}{texte_ou_titre}`. Par exemple \textcolor{blue}{Le texte suivant s'ecrira en couleur bleu}.
+
+**Encadrer un texte :**
+
+Pour encadrer votre block de texte, vos pouvez utiliser le block de code `\begin{tcolorbox}[colframe = couleur_du_block, colback = couleur_background, title = titre_du_paragraphe ]...(votre texte)...\end{tcolorbox}`.
+
+Par exemple :
+
+\begin{tcolorbox}[colframe = blue, colback = gray, title = Block de texte ]
+
+Le block de texte suivant nommé 'Block de texte' s'affichera dans un frame de couleur bleue et de fond gris.
+
+\end{tcolorbox}
+
+Vous pouvez aussi utiliser le block de code `\begin{framed}...\end{framed}` du package lateX `\usepackage{framed}`
+
+Par exemple :
+
+\begin{framed}
+
+Ceci est un bloc de texte encadré.
+
+\end{framed}
+
+**Alignement de texte :**
+
+Vous pouvez aussi choisir l'alignement de votre texte gauche, droite ou centré à l'aide des blocks de code lateX `\begin{flushleft}...\end{flushleft}`, `\begin{flushright}...\end{flushright}` et `\begin{center}...\end{center}`.
+
+Exemple :
+
+\begin{center}
+Texte centré.
+\end{center}
+
+\begin{flushleft}
+Texte aligné à gauche.
+\end{flushleft}
+
+\begin{flushright}
+Texte aligné à droite.
+\end{flushright}
+
+**Labelisation d'equations :**
+
+On peut donner un nom à une equation et la labeliser à l'aide de la commande LateX `\label{eq:nom_equation}`.
+
+__Exemple :__
+
+\begin{equation}
+E = mc^2
+\label{eq:emc2}
+\end{equation}
+
+On utilise la commande `\eqref{eq:nom_equation}` pour faire apparaître la référence de l'equation comme ci-dessous.
+
+Comme nous pouvons le voir dans l'équation \eqref{eq:emc2}, l'énergie est proportionnelle à la masse.
+
+En cliquant sur la référence, on peut revenir voir l'équation.
+
+**Entête et pieds de pages avec LateX**
+
+Il est possible de ce demander en consultant ce document comment ajouter les en-têtes et les pieds de pages dans son document R markdown pour les sorties pdf.
+
+En effet cela nécessite une suite de codes LateX nottament `\renewcommand{}`,`\headrulewidth`,...
+
+Le code LateX utilisé pour cela est le suivant :
+
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images/En-têtes_Pieds_pages.png")
+```
+
+**NB :**
+
+**Toutes ces mises en formes ne seront visibles que pour les sorties sous le format pdf.**
+
+Voici une listes de balises LateX que vous pouvez utiliser pour vos documents R markdown et leur fonctionnement respectifs.
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%", fig.cap= "Balises LateX"}
+knitr::include_graphics("../Document_Rmarkdown/Images/Balises_LateX.png")
+```
+
+\newpage
+
+# R Markdown, HTML et CSS
+
+Si vous souhaiter avec des documents interactifs, il est conseillé de privilégier les sorties HTML qui supportent les graphiques et tableaux dynamiques, ce qui n'est pas le cas des sorties pdf par exemple.
+
+Vous pouvez utiliser du code CSS pour faire toutes mises en formes de votre document HTML; vous pourrez même ainsi créer vos propres templates.
+
+Par exemple, à l'aide du code CSS suivant :
+
+```{r echo=FALSE, fig.align='center', out.width= "50%", out.height="50%"}
+knitr::include_graphics("../Document_Rmarkdown/code_CSS.png")
+```
+
+On obtient la sortie HTML suivante :
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Sortie_code_CSS.png")
+```
+
+**NB :** Les graphiques et tableaux dynamiques ne sont pas supportés sous le format pdf. Si vous effectuez une telle sortie R vous renverra des erreurs. Pour corriger ceux-ci, vous devez ajouter l'option **`always_allow_html: true`** dans l'entête YAML.
+
+\newpage
+
+#  Creation de livre avec bookdown de R markdown 
+
+Pour la création de livre avec R markdown, rassurez-vous tout d'abord d'installer le package `bookdown` avec par exemple la commande `install.packages("bookdown")`.
+
+Ensuite suivez les étapes suivantes :
+
+1. Allez dans `File` -> `New Project`.
+
+2. Sélectionnez `New Directory`.
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../Document_Rmarkdown/Images_creation_livres/New_directory.png")
+```
+
+3. Choisissez `Book Project using bookdown`.
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../Document_Rmarkdown/Images_creation_livres/book_using_bookdown.png")
+```
+
+4. Donnez un nom à votre projet et sélectionnez un dossier pour le sauvegarder et Cliquez sur `Create Project`.
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../Document_Rmarkdown/Images_creation_livres/Create_projet.png")
+```
+
+Une structure de répertoire sera générée par défaut pour votre livre.
+
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+knitr::include_graphics("../Document_Rmarkdown/Images_creation_livres/Affichage_Projet.png")
+```
+
+La structure de base générée inclut les fichiers suivants :
+
+* `_bookdown.yml` : Fichier de configuration pour Bookdown.
+* `index.Rmd` : Page de titre et de préface de votre livre.
+* `01-intro.Rmd`, `02-chap.Rmd`, etc. : Chapitres de votre livre.
+* `book.bib` : Fichier de références bibliographiques (si nécessaire).
+* `output.yml` : Configuration des formats de sortie (PDF, HTML, ePub).
+
+Vous pouvez ensuite configure le `_bookdown.yml` de façon à organiser votre livre comme vous le souhaitez.
+
+[retour à introduction](#Introduction)
+
+**Compilation du livre**
+
+Pour compiler le livre, vous pouvez utiliser :
+
+* **`bookdown::render_book("index.Rmd", "bookdown::pdf_book")`** pour compiler en **pdf**
+
+* **`bookdown::render_book("index.Rmd", "bookdown::epub_book")`** pour compiler en **epub**
+
+\newpage
+
+\textcolor{blue}{\section*{Bibliographie}\addcontentsline{toc}{section}{Bibliographie}}
+
++ [https://bookdown.org/yihui/rmarkdown-cookbook/bibliography.html](https://bookdown.org/yihui/rmarkdown-cookbook/bibliography.html)
+
++ [https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html](https://bookdown.org/yihui/rmarkdown/ioslides-presentation.html)
+
++ [https://larmarange.github.io/analyse-R/rmarkdown-les-rapports-automatises.html](https://larmarange.github.io/analyse-R/rmarkdown-les-rapports-automatises.html)
+
++ [https://epirhandbook.com/fr/rmarkdown.html](https://epirhandbook.com/fr/rmarkdown.html)
+
+\includepdf{Fin_Page_de_garde.pdf}

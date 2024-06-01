@@ -1,0 +1,845 @@
+---
+title: "R Markdown"
+author: "Présentation R Markdown"
+institute : ""
+date: "`r Sys.Date()`"
+output: 
+  beamer_presentation:
+    theme: "Madrid"
+    colortheme: "default"
+    toc: yes
+    fig_caption: yes
+    fig_height: 3
+header-includes:
+  - \hypersetup{colorlinks=true, urlcolor=blue}
+  - \usepackage{longtable}
+editor_options: 
+  markdown: 
+      wrap: 72
+always_allow_html: true
+---
+##
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/presentation.png")
+```
+
+##
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/page_garde.png")
+```
+
+## Plan
+
+-   Introduction
+-   Utilisation de R Markdown\
+-   Présentation de l'environnement R Markdown
+-   Personnalisation du document
+-   Formats de sortie avec R Markdown
+-   Compléments
+-   Applications
+
+## I. Introduction
+
+### 
+
+Le langage Markdown est un langage de balisage léger qui permet de
+formater du texte de manière simple et lisible, en utilisant des
+caractères typographiques courants. R Markdown est une variante de
+markdown qui est spécifique à R. Il permet d'écrire un document en
+utilisant markdown pour produire du texte et pour incorporer du code R,
+Python, SQL et bien d'autres et afficher leurs sorties. Les fichiers R
+Markdown ont une extension .Rmd.
+
+## Pourquoi R Markdown est-il aussi important ?
+
+### 
+
+R Markdown offre une grande flexibilité et diversité en termes de
+formats de sortie pour les documents. Il permet plusieurs formats de
+sortie comme : HTML, PDF, Word, Dashboards interactifs , Livres
+électroniques, Beamer ...
+
+### 
+
+D'autre part, R Markdown est un outil puissant qui permet de combiner du
+code R, des résultats de code, et du texte formaté dans un document
+unique (Intégration de code, Rendu dynamique, Mixage de formats de
+texte, Incorporation de graphiques, Support de nombreux langages de
+programmation).
+
+## Utilisation de Rmarkdown
+
+### II.1 Installation du package de R markdown
+
+Pour installer le package R Markdown, on peut utiliser directement la
+fonction install.packages() : *install.packages("rmarkdown")* .
+
+Pour charger le package R Markdown, on utilise la fonction library() :
+*library(rmarkdown)*. 
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Installation_package_Rmd.jpg")
+```
+
+
+
+
+## II.2 Présentation de l'environnement R Markdown
+
+### II.2.1 Structure d'un document R Markdow
+
+Lorsque le logiciel RStudio est ouvert, pour ouvrir un fichier R
+markdown, vous pouvez cliquer sur *new file* et ensuite choisir le fichier
+*R markdown*. Comme cela est illustré sur la photo ci-dessous :
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Creation_fichier_Rmd.jpg")
+```
+
+
+
+## 
+
+### II.2.1 Structure d'un document R Markdown
+
+Par défaut, la page qui s'affiche est la suivante :
+
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Page_defaut.jpg")
+```
+
+## 
+
+Un document Rmarkdown est composé de trois parties :
+
+-   YAML (des méta-données)
+-   texte
+-   morceaux de code (code chunks)
+
+### II.2.2 En-tête YAML
+
+L'en-tête d'un document R Markdown (parfois appelé YAML header) est
+délimité par deux lignes de pointillés et contient les métadonnées du
+document (titre, auteurs, options générales de mise en page. . .). Il
+contient au minimum le titre du document et le format de sortie. Il peut
+être enrichi d'autres champs pour modifier certaines métadonnées (par
+exemple la date) ou le style du document compilé.
+
+## 
+
+### Exemple :
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Entete.png")
+```
+
+## II.2.3 Table des matières
+
+Pour inclure une table des matières dans un document R Markdown généré
+avec RStudio, vous pouvez utiliser l'option **toc** (*toc : true dans le
+bloc YAML* ) dans les métadonnées YAML.
+
+Les titres sont précédés par \# :
+
+-   *\#* Section
+-   *\##* Titre 1
+-   *\###* Titre 2
+
+## 
+
+Le format de sortie et les options peuvent également etre modifié sur
+**forme d'engrenage à droite du bouton Knit**.
+
+### 
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Output_option.png")
+```
+
+
+## II.2.4 Les styles et thèmes
+
+L'option *reference_docx.* des métadonnées permet de charger un document
+word et d'importer tous les styles qui y sont et l'applique a notre document
+de sortir.
+
+### 
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Style.png")
+```
+
+
+##
+
+###  Quelques régles
+- Pour forcer le retour à la ligne, il faut mettre "deux espaces vides à la fin d’une ligne.
+
+- Pour écrire en gras il faut mettre deux étoiles (ou deux tirets de 8) entre le mot souhaité.
+
+- Pour mettre un texte en italique, il suffit de le placer entre deux tirets de huit (2 étoiles).
+
+- Pour mettre en gras et en italique, il suffit de le placer entre 3 étoiles (ou 3 tirets de 8).
+
+- Pour barer un texte, précédé le de 2 tildes et refermez la chaine avec 2 tildes;
+
+- Pour mettre un mot en exposant,encadrez le du symbole "^".
+
+- Pour l'obtention d'un tiret long (respectivement moyen), alignez 3 tirets de 6 successifs (respectivement 2 tirets de 6 successifs).
+
+- En inscrivant trois tirets "- - -" et en passant immédiatement à la ligne, une ligne horizontale est insérée.
+
+##
+
+### Quelques règles importantes
+
+- Pour écrire des points de suspension, il suffit d’écrire trois points (...) à la suite…
+
+- Pour effectuer une citation dans un bloc, il convient de faire précéder la citation du symbole " > ", que l’on place en début de ligne.
+
+- La création d’un lien hypertexte se fait en utilisant deux éléments : 
+    - un texte sur lequel on clique, qui doit être entouré par des crochets [] 
+    - une adresse vers laquelle le lien point, qui doit être entourée par des parenthèses (()).
+    
+*Syntaxe* : [mot_surlequel_il faut cliquez_pour_acceder_au_lien]
+(lien)
+            
+            Ou tout simplement mettre le lien entre les symboles
+            "< >"
+- Pour les notes de bas de page 
+
+**Il est impossible de souligner un texte en Rmarkdown** 
+
+
+## II.2.5 Chunks
+
+En plus du texte libre au format Markdown, un document R Markdown
+contient, comme son nom l'indique, du code R. Celui-ci est inclus dans
+des blocs (chunks) délimités par la syntaxe suivante :
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Chunk.png")
+```
+
+
+## II.2.5 Chunks
+
+Comme cette suite de caractères n'est pas très simple à saisir, vous
+pouvez utiliser le menu Insert de RStudio et choisir le type de chunks
+que vous voulez.
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Type_chunk.png")
+```
+
+
+-   Il est également possible d'utiliser le raccourci *ctrl+alt+i*.
+
+## II.2.5 Chunks
+
+### Options bloc de chunk
+
+Les options (détaillées plus bas) permettent de mieux structurer le
+fichier Rmarkdown.Par exemple, elles permettent de ne pas faire figurer
+l'output du code dans le document final ou inversement de ne montrer que
+l'output du code et non le code l'ayant généré.
+
+**Nb :** Il est également recommandé de nommer les chunks.
+
+## II.2.5 Chunks
+
+### Options bloc de chunk
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/Options_chunk.png")
+```
+
+
+## II.2.5 Chunks
+
+### Options bloc de chunk
+
+Il est possible aussi de définir des options globales qui s'appliquent à
+chaque chunk de votre fichier, appelez **knitr : :opts_chunks** et dans
+un chunk de code. Knitr traitera chaque option que vous transmettez à
+**knitr::opts_chunkset** comme un défaut global pouvant être écrasé dans
+les en-têtes de chunk individuels.
+
+## Personnalisation d'un document R markdown
+
+
+### III.3 Insertion de tableau
+
+La syntaxe Markdown permet de créer un tableau en utilisant des barres
+verticales \| pour séparer les colonnes et des tirets - pour séparer les
+lignes. Pour personnaliser votre tableau en ajoutant des éléments
+Markdown supplémentaires, utilisez deux points : dans les barres
+verticales pour aligner le texte dans les colonnes.
+
+Par exemple :--- : pour centrer, :--- pour aligner à gauche, --- : pour
+aligner à droite.
+
+**Nb**: Il est possible de faire des tableaux avancés avec les library
+de R comme: Kable, gtsummary, etc.
+
+## 
+
+### III.3 Insertion de tableau (Exemple)
+
+```{r, eval=FALSE}
+
+**Application**
+
+| Nom    | Prenom           | Classe   |
+|--------|------------------|----------|
+| BAMOGO | Rasmane          | ISE-MATH |
+| SANDJO | Larry            | ISE-MATH |
+| DIOP   | Cherif Ousseynou | ISEP     |
+| ZINABA | Albert           | ISE-ECO  |
+
+```
+
+### III.3 Insertion de tableau (Exemple)
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/table.png")
+```
+
+
+
+## III.4 Insertion de lien
+
+R markdown permet de créer des liens qui facilite la navigation vers le web ,local ou même dans notre document.
+ 
+- **Insersion du lien web :**
+ 
+La syntaxes est la suivante entre crochet le titre du lien suivis d'une parenthèse contenant le lien web.
+
+**Exemple :**
+
+Le code suivant :
+```{r ,echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/Lien_Zotero.png")
+```
+- Permet d'avoir le lien suivant : [Lien vers zoreto](https://www.zotero.org/)
+
+## III.4 Insertion de lien
+###
+- **Lien vers un fichier local :**
+  
+La syntaxe est la suivante; entre crochet le titre du lien suivis d'une parenthèse contenant le chemin d'accès au document
+ 
+**Exemple :**
+
+```{r ,echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/Lien_Local.png")
+```
+[lien vers le TP](C:/Users/Larry/Desktop/ISE 1/S2/Projet Statistique avec R/Projet R Markdown/Plan_de_travail_R_Markdown[1].docx)
+
+## III.4 Insertion de lien
+
+###
+
+- **Lien vers un titre du document :**
+
+La syntaxe est la suivante : entre crochet contenant le titre du document suivi d'une parenthèse contenant le titre mais le titre doit être début par un `#`:
+
+```{r ,echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/Lien_vers_titre.png")
+```
+[Retour vers l'insertion](# Insertion d'un lien dans le document rmarkdown)
+
+Dans tous les cas le titre n'est pas obligatoire mais au cas où il n'y a pas de titre les crochets doivent être mis et laisser vide
+
+## III.5 Insertion d'images
+
+### Insertion d'images
+
+```{r, eval=FALSE}
+Pour insérer des images dans un document RMarkdown,
+la syntaxe est la suivante : 
+![description](chemin_vers_votre_image){width=taille}
+```
+
+## III.5 Insertion d'images
+
+### Insertion image avec un chunk
+
+
+```{r ,echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/img_chunk.png")
+```
+
+
+
+## III.6 Equations mathématiques
+
+### 
+
+Pour insérer des équations mathématiques dans un document RMarkdown, on
+peut utiliser la syntaxe LaTeX.
+
+## III.6 Equations mathématiques
+
+### Exemple 1 :
+
+--- Equations :
+
+Pour inclure des équations mathématiques directement dans le texte, on
+peut les entourer de symboles \$ (deux \$ pour centrer).
+
+```{r, eval=FALSE}
+ $f(x) = x+y$
+```
+
+```{r ,echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/Math_1.png")
+```
+
+
+## III.7 Création de Template
+
+La création d'un modèle (ou Template) dans RMarkdown vous permet de
+définir une structure de document prédéfinie avec des paramètres par
+défaut, des styles personnalisés, des en-têtes, des pieds de page, etc.
+
+### Exemple de template 
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+path <- here::here()
+knitr::include_graphics("../beamer/Images/template_ex.png")
+```
+Ce type de modèle peut être facilement optenu sur le site :  : *https://github.com/yixuan/prettydoc/?tab=readme-ov-file*
+
+
+### III.7.1 Création du modèle
+
+1.  Commencez par créer un nouveau document RMarkdown dans RStudio.
+
+2.  Personnalisez ce document selon vos besoins : définissez les
+    en-têtes, les pieds de page, les styles CSS, les balises LaTeX
+    personnalisées, etc.
+
+3.  Enregistrez ce document dans un répertoire spécifique que vous
+    pouvez facilement retrouver.
+
+## 
+
+### III.7.2 Utilisation du modèle
+
+Pour utiliser ce modèle lors de la création d'un nouveau document
+RMarkdown :
+
+1.  Ouvrez RStudio.
+
+2.  Sélectionnez "File" \> "New File" \> "R Markdown...".
+
+3.  Choisissez "From Template" et sélectionnez le modèle que vous avez
+    créé.
+
+## 
+
+### III.8 Listes sur Rmarkdown
+
+-   Liste ordonnée Pour créer une liste ordonnée, on place en début de
+    ligne, devant chaque élément de la ligne, un nombre immédiatement
+    suivi d'un point et d'une espace.
+
+**Il n'est pas nécessaire de respecter la numérotation . Le numéro du
+premier élément de la liste ordonnée définit la valeur du compteur.**
+
+## 
+
+-   Exemple :
+
+### 
+![](../beamer/Images/liste_ord.png){width="150 px"}
+
+##
+
+### Sortie
+
+2. element 1
+5. element 2
+8. element 3
+
+
+##
+
+### III.8 Listes sur Rmarkdown
+
+- Les listes non ordonnnées
+  
+    - La génération est très simple, il suffit de mettre un tiret de 6 suivi d'un espace pour obtenir chaque titre.
+  
+      Dans le cas d'une liste **imbriquée**, il faut faire une indentation pour l'insertion de sous titres.
+
+
+
+## Compléments 
+
+
+### markdown Cheat Sheet
+
+Vous pouvez avoir la liste quasi complète des balises R Markdown en allant sur le site : 
+
+[https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+##
+
+### R markdown Cheat Sheet
+
+Il est aussi possible d’accéder aux références rapides de R markdown proposées par la page d’aide de R. 
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/References_markdown.png")
+```
+
+
+
+##
+
+### Le visual de R Markdown.
+
+Dans R Markdown, il est possible d'utiliser le **Visual** pour effectuer de nombreuses tâches sans avoir à retenir toutes ces balises R markdown.
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/Visual.png")
+```
+
+
+##
+Vous pouvez ensuite utiliser l’ensemble des fonctionnalités telles que mettre en gras, mettre en italique, insérer des images, des tableaux, etc.
+
+### 
+
+```{r echo=FALSE, fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/Le_Visual.png")
+```
+
+##  R Markdown et Latex
+Si vous souhaitez concevoir des documents pdf très attrayant, comme celui-ci d’ailleurs, il
+est conseillé d’associer vos balises R markdown aux balises LateX. 
+
+Tous les packages LateX nécessaires doivent être inclus dans l’entête YAML à l’aide de
+header-includes: où vous devez lister ces packages.
+
+### Page de garde
+
+```{r, eval=FALSE}
+1- Créer une page de garde faite à partir de Ms word 
+par exemple. Cette parge de garde doit être au format pdf 
+et être contenu dans le dossier où se trouve
+votre script R markdown.
+
+
+```
+
+```{r, eval=FALSE}
+2- inclure le package LateX  *\usepackage{pdfpages}*
+qui permet de mettre la page de garde au  niveau
+de l’entête YAML.
+3- La balise permettant d’inclure la page de garde est :
+  *\includepdf{nom_de_la_page_de_garde}*.
+
+```
+
+##  R Markdown et Latex
+
+### La table des matières
+
+```{r, eval=FALSE, echo=TRUE}
+Nous avons déjà vu comment insérer la table 
+de matière avec R markdown, mais il est conseillé
+d’utiliser la balise LateX *\tableofcontents*
+qui permet de générer une table de matière plus attrayante 
+etqui donne la possibilité de numéroter automatiquement 
+les parties de notre document.
+
+```
+
+##  R Markdown et Latex
+
+### Liste des tableaux et liste des figures 
+
+```{r, eval=FALSE}
+Il est aussi possible d’inclure une liste des tableaux et 
+des figures avec des balises lateX
+*\listoftables* et *\listoffigures*.
+
+```
+
+
+##  R Markdown et Latex
+
+### Insérer une nouvelle page 
+Vous l’aurez remarqué, l’insertion d’une nouvelle page dans R mardown se fait très souvent à
+l’aide de la balise lateX : 
+
+```{r, eval=FALSE}
+\newpage
+```
+
+##  R Markdown et Latex
+
+### Mettre un texte en couleur 
+ 
+```{r,eval=FALSE, fig.align='center'}
+Dans vos document R markdown vous pouvez mettre vos titres 
+ou vos textes en couleur à l’aide de la syntaxe 
+*\textcolor{nom_couleur}{texte_ou_titre}*.
+```
+
+
+```{r echo=FALSE, fig.align='center', out.width= "70%", out.height="70%"}
+knitr::include_graphics("../beamer/Images/color.png")
+
+knitr::include_graphics("../beamer/Images/color2.png")
+```
+##  R Markdown et Latex
+
+### Encadrer un texte 
+
+```{r, eval=FALSE}
+Pour encadrer votre block de texte, vos pouvez utiliser 
+le block de code :
+\begin{tcolorbox}[colframe
+= couleur_du_block, colback = couleur_background, 
+title = titre_du_paragraphe]...(votre texte)...
+\end{tcolorbox}.
+
+```
+
+## R Markdown et Latex
+
+### Exemple 
+```{r,echo=FALSE,fig.align='center',out.width= "70%", out.height="70%"}
+knitr::include_graphics("../beamer/Images/encadre1.png")
+
+knitr::include_graphics("../beamer/Images/encadre.png")
+```
+```{r, eval=FALSE}
+Vous pouvez aussi utiliser le block de code
+\begin{framed}...\end{framed} du package
+lateX \usepackage{framed}
+
+```
+## R Markdown et Latex
+
+### Alignement de texte
+
+```{r, eval=FALSE}
+Vous pouvez aussi choisir l’alignement de votre texte gauche,
+droite ou centré à l’aide des blocks de code lateX 
+\begin{flushleft}...\end{flushleft}, 
+\begin{flushright}...\end{flushright}
+et \begin{center}...\end{center}.
+
+```
+
+
+## R Markdown et Latex
+
+### Exemple 
+
+```{r,echo=FALSE,fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/centre_texte.png")
+
+knitr::include_graphics("../beamer/Images/centre.png")
+```
+
+## R Markdown et Latex
+
+### Labelisation d'equations 
+```{r, eval=FALSE}
+On peut donner un nom à une equation et la labeliser à 
+l'aide de la commande LateX `\label{eq:nom_equation}`.
+```
+
+### Exemple 
+
+```{r,echo=FALSE,fig.align='center', out.width= "30%", out.height="30%"}
+knitr::include_graphics("../beamer/Images/emc.png")
+
+knitr::include_graphics("../beamer/Images/emc2.png")
+```
+```{r, eval=FALSE}
+On utilise la commande \eqref{eq:nom_equation} 
+pour faire apparaître la référence de l’equation.
+```
+
+
+## R Markdown et Latex
+### Exemple 
+
+```{r,echo=FALSE,fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/ref_ex.png")
+
+knitr::include_graphics("../beamer/Images/ref.png")
+```
+
+## R Markdown et Latex
+
+### Entête et pieds de pages avec LateX
+
+La syntaxe pour mettre les entêtes et pieds de pages est la suivante : 
+
+```{r, eval=FALSE}
+`\renewcommand{}`,`\headrulewidth`,...
+
+```
+
+## R Markdown et Latex
+
+### Entête et pieds de pages avec LateX
+
+```{r,echo=FALSE,fig.align='center', out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/En-têtes_Pieds_pages.png")
+
+```
+**NB** : **Toutes ces mises en formes ne seront visibles que pour les sorties sous le format pdf**.
+
+
+## R Markdown et Latex
+
+### Liste des Balises
+```{r,echo=FALSE, fig.align='center',out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/Balises_LateX.png")
+
+```
+
+## R Markdown, HTML et CSS
+
+###
+Si vous souhaiter avec des documents interactifs, il est conseillé de privilégier les sorties HTML
+qui supportent les graphiques et tableaux dynamiques, ce qui n’est pas le cas des sorties pdf par
+exemple.
+Vous pouvez utiliser du code CSS pour faire toutes mises en formes de votre document HTML ;
+vous pourrez même ainsi créer vos propres templates.
+
+## R Markdown, HTML et CSS
+
+### Exemple
+```{r,echo=FALSE,fig.align='center',out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/code_CSS.png")
+
+```
+
+## R Markdown, HTML et CSS
+
+### Exemple (sortie)
+
+```{r,echo=FALSE,fig.align='center',out.width= "60%", out.height="60%"}
+knitr::include_graphics("../beamer/Images/sortie_code_CSS.png")
+
+```
+
+## Creation de livre avec bookdown de R markdow
+
+###
+
+Pour la création de livre avec R markdown, rassurez-vous tout d’abord d’installer le package
+bookdown avec par exemple la commande install.packages("bookdown").
+Ensuite suivez les étapes suivantes :
+
+
+1. Allez dans File -> New Project.
+2. Sélectionnez New Directory.
+
+```{r,echo=FALSE,fig.align='center',out.width= "40%", out.height="40%"}
+knitr::include_graphics("../beamer/Images/New_directory.png")
+
+```
+
+## Creation de livre avec bookdown de R markdow
+
+###
+
+3. Choisissez Book Project using bookdown.
+
+```{r,echo=FALSE,fig.align='center',out.width= "40%", out.height="40%"}
+knitr::include_graphics("../beamer/Images/book_using_bookdown.png")
+
+```
+## Creation de livre avec bookdown de R markdow
+
+###
+
+4. Donnez un nom à votre projet et sélectionnez un dossier pour le sauvegarder et Cliquez
+sur Create Project.
+```{r,echo=FALSE,fig.align='center',out.width= "40%", out.height="40%"}
+knitr::include_graphics("../beamer/Images/Create_projet.png")
+
+```
+
+## Creation de livre avec bookdown de R markdow
+###
+Une structure de répertoire sera générée par défaut pour votre livre.
+
+```{r,echo=FALSE,fig.align='center',out.width= "50%", out.height="50%"}
+knitr::include_graphics("../beamer/Images/Affichage_Projet.png")
+
+```
+
+## Creation de livre avec bookdown de R markdow
+
+###
+
+La structure de base générée inclut les fichiers suivants :
+
+- _bookdown.yml : Fichier de configuration pour Bookdown.
+
+- index.Rmd : Page de titre et de préface de votre livre.
+- 01-intro.Rmd, 02-chap.Rmd, etc. : Chapitres de votre livre.
+- book.bib : Fichier de références bibliographiques (si nécessaire).
+- output.yml : Configuration des formats de sortie (PDF, HTML, ePub).
+Vous pouvez ensuite configure le _bookdown.yml de façon à organiser votre livre comme vous
+le souhaitez.
+
+## Creation de livre avec bookdown de R markdow
+
+### Compilation du livre
+Pour compiler le livre, vous pouvez utiliser :
+
+* **`bookdown::render_book("index.Rmd", "bookdown::pdf_book")`** pour compiler en **pdf**
+
+* **`bookdown::render_book("index.Rmd", "bookdown::epub_book")`** pour compiler en **epub**
+
+
+## Applications
+
+### Beamer
+
+(voir Beamer)
+
+### Html
+(voir html)
+
+### Fichier Rmarkdown
+
+(voir Présentation)
+
+### Template
+(voir template)
+
+##
+
+### Conclusion
+
+##  Références
+
+- **https://bookdown.org/yihui/rmarkdown**
+- **https://rmarkdown.rstudio.com/**
+- **https://larmarange.github.io/analyse-R/rmarkdown-les-rapports-automatises.html**

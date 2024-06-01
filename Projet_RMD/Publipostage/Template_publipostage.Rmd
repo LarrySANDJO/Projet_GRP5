@@ -1,0 +1,38 @@
+---
+title: "Diplôme d'Étudiant"
+author: "`r params$university`"
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
+params:
+  student_name: Étudiant
+  degree: Diplôme
+  graduation_date: Date de Graduation
+  university: Université
+---
+
+# Diplôme de l'Université `r params$university`
+
+Ce document certifie que **`r params$student_name`** a complété avec succès tous les requis nécessaires pour l'obtention du diplôme de **`r params$degree`** le **`r params$graduation_date`**.
+
+
+**Université:**
+
+`r params$university`
+
+
+**Date d'Émission:**
+
+`r params$graduation_date`
+
+
+Félicitations pour cette réussite remarquable!
+
+
+**Signature:**
+
+`______________________________`
+
+_Président de l'Université_

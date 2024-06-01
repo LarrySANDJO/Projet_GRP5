@@ -1,0 +1,258 @@
+---
+title: "Application Beamer"
+author: "Groupe 5"
+date: "`r Sys.Date()`"
+output: 
+  beamer_presentation:
+    theme: "Madrid"
+    colortheme: "dolphin"
+    toc: true
+    
+
+header-includes:
+  - \hypersetup{colorlinks=true, urlcolor=blue}
+always_allow_html: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Creation beamer 
+
+Une fois que le logiciel ouvert, vous pouvez suivre les étapes suivantes pour créer le beamer :
+
+
+```{r etape}
+past <- here::here()
+image_1 <- paste0(past,"/image_1.png")
+image_2 <- paste0(past,"/image_2.png")
+image_3 <- paste0(past,"/image_3.png")
+```
+### Etapes 1 : 
+
+ ![première étape création beamer](image_1){width="350px"}
+
+## Creation beamer
+
+### Etapes 2 : 
+
+ ![deuxieme étape création beamer](image_2){width="400px"}
+ 
+## Creation beamer
+ 
+### Etapes 3 : 
+
+ ![troisième étape création beamer](image_3){width="400px"}
+ 
+
+## Personnaliser le beamer
+
+Aprés la création du beamer, le fichier a un format simple. Il est possible de personnaliser la sortie.
+
+### Thèmes : 
+
+Le Beamer offre une gamme de thèmes préconfigurés pour personnaliser la présentation, parmi lesquels on retrouve : AnnArbor, Antibes, Bergen, Berkeley, Berlin, CambridgeUS, Frankfurt, etc.
+
+De plus, il propose également une palette de couleurs prédéfinies telles que : bleu, vert, cyan, magenta, jaune, noir, blanc, etc.
+
+La matrice des thèmes et des couleurs est définie sur le site : [*Thèmes & couleurs beamer*](https://bookdown.org/yihui/rmarkdown/beamer-presentation.html).
+
+---
+## Personnaliser le beamer
+
+### Thème et couleur:
+
+
+Pour ajouter un thème et une couleur, il suffit d'ajouter le syntaxe au niveau de l'output (YAML) :
+
+- theme : "*nom_theme*"
+
+
+- colortheme : "*nom_couleur*"
+
+\transduration{2}
+
+## Personnaliser le beamer
+
+### Exemple : 
+
+title: "Application Beamer" 
+
+
+author: "DIOP Ousseynou"
+
+
+date: "`r Sys.Date()`"
+
+
+output: "
+
+
+  beamer_presentation:" 
+  
+    theme: "Madrid"" 
+    
+    colortheme: "dolphin"
+
+## Niveau coulissant : 
+
+Le niveau de coulissant correspond à la hiérarchie des titres dans une présentation Beamer. Dans RMarkdown, le paramètre *slide_level* contrôle cette structuration en spécifiant le niveau de titre qui doit générer une nouvelle diapositive dans la sortie Beamer.
+
+### Remarque  
+Par défaut, *slide_level* est fixé à 2, ce qui signifie que les titres de niveau 1 (#) et de niveau 2 (##) créeront une nouvelle diapositive, tandis que les sous-titres de niveau 3 et supérieur seront inclus dans la même diapositive que leur titre parent.
+
+## Niveau coulissant : 
+### Exemple : 
+
+title: "Application Beamer" 
+
+
+author: "DIOP Ousseynou"
+
+
+date: "`r Sys.Date()`"
+
+
+output: "
+
+
+  beamer_presentation:" 
+  
+    theme: "Madrid"" 
+    
+    colortheme: "dolphin"
+  
+slide_level : 2
+
+## Quelques statistiques 
+
+La source de données utilisée provient de ACLED et concerne les incidents survenus dans les pays du G5 Sahel, entre autres.
+```{r statistics, echo=TRUE,message=FALSE}
+past <- here::here()
+past_data <- paste0(past,"/ACLED-Western_Africa (1).csv")
+data <- read.csv(past_data)
+data_filter <- dplyr::filter(data, (type == "Violence against civilians"
+| type=="Battles") & (pays=="Burkina Faso" | pays=="Mauritania" | 
+pays=="Niger" | pays =="Mali" | pays=="Senegal"))
+tableau <- table(data_filter$pays, data_filter$type)
+```
+
+## Quelques statistiques
+
+### Résultat
+```{r resultat,message=FALSE}
+print(tableau)
+```
+
+
+## Quelques statistiques
+
+### Mise en forme  avec KableExtra
+
+```{r,echo=TRUE,message=FALSE}
+library(kableExtra)
+library(dplyr)
+#convertion du tableau en un objet kable
+tableau_kable <- as.data.frame.matrix(tableau) 
+table_form <- tableau_kable %>%
+  kbl(caption="Evenements G5 Sahel") %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+
+```
+
+## Quelques statistiques
+
+
+
+## Quelques statistiques
+
+
+
+
+
+## Quelques statistiques
+
+### Résultat 
+
+```{r}
+table_form
+```
+## 
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+path <- here::here()
+knitr::include_graphics("C:/Users/dell/Desktop/ENSAE/ISEP3/Semestre 6/Projet statistique avec R/exposé/beamer exposé/Images/Rplot01.png")
+```
+
+
+##
+
+```{r echo=FALSE, fig.align='center', out.width= "100%", out.height="100%"}
+path <- here::here()
+knitr::include_graphics("C:/Users/dell/Desktop/ENSAE/ISEP3/Semestre 6/Projet statistique avec R/exposé/beamer exposé/Images/Rplot.png")
+```
+
+## Un peu de statistiques spatiales
+```{r, echo=TRUE,message=FALSE}
+library(tidyverse)
+library(sf)
+library(tmap)
+library(variousdata)
+past <- here::here()
+bkf<- read_sf(paste0(past,"/BKF/gadm41_BFA_2.shp"))
+tmap_mode("plot")
+bkf_1 <- tm_shape(bkf) + 
+    tm_polygons() + 
+   tm_text("NAME_2", size = 0.5, col = "black", alpha = 0.8)+
+  tm_layout("Burkina Faso", inner.margins=c(0,0,.1,0), title.size=.8)+
+  tm_compass(type = "arrow", position = c("left", "top")) 
+
+
+```
+
+
+## 
+### Résultat 
+```{r spatial}
+bkf_1
+```
+
+
+## Un peu de statistiques spatiales
+```{r view, echo=TRUE, message=FALSE,warning=FALSE}
+
+library(openxlsx)
+way<- paste0(past,"/BKF//température.xlsx")
+temperature <- read.xlsx(way)
+temperature <- data.frame(temperature)
+bkf_2<- merge(bkf, temperature, by = "NAME_2", all.x = TRUE)
+bkf_2_T <- tm_shape(bkf_2) + 
+  tm_polygons("Temperature", title = "Temperature") +
+  tm_borders("white", lwd = 0.5) +
+  tm_text("NAME_2", size = 0.5, col = "black", alpha = 0.8)+
+  tm_layout(title = "Température du Burkina Faso")+
+  tm_compass(type = "arrow", position = c("left", "top"))+
+   tm_scale_bar(position = c("center","bottom"))
+
+```
+
+##
+### Résultat
+```{r plot, warning=FALSE}
+bkf_2_T
+```
+
+
+## Autres fonctionnalités 
+
+### 
+Il y a d'autres fonctionnalités de beamer comme : générer la table des matières, les numéros des sections, les options de sorties,ajouter une image, les listes etc. Ces fonctionnalités sont discutées plus en détail dans les présentations générales de Rmarkdown.
+
+## 
+
+#### FIN PRESENTATION BEAMER
+
+
+
+
+

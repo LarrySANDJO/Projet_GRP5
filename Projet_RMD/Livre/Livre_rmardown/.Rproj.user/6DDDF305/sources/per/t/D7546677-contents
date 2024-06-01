@@ -1,0 +1,5 @@
+\usepackage{booktabs}
+\usepackage{pdfpages}
+\newcommand{\coverpage}{
+  \includepdf{Fin_Page_de_garde.pdf}
+}

@@ -1,0 +1,6 @@
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
+new_session: yes
+rmd_files: ["index.Rmd", "01-intro.Rmd", "03-parts.Rmd", "04-citations.Rmd", "05-blocks.Rmd", "06-share.Rmd", "07-references.Rmd", "end.Rmd"]
